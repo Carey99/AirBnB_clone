@@ -6,6 +6,7 @@ import sys
 import cmd
 from models.base_model import BaseModel
 from models.engine.error import *
+from models.user import User
 from models import storage
 import shlex
 
