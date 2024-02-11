@@ -2,13 +2,17 @@
 """
 Entry point of the project
 """
-import sys
-import cmd
-from models.base_model import BaseModel
-from models.engine.error import *
-from models.user import User
+from cmd import Cmd
 from models import storage
+from models.engine.error import *
 import shlex
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 classes = storage.models
