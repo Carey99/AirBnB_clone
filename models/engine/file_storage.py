@@ -7,6 +7,7 @@ from json.decoder import JSONDecodeError
 from models.engine.error import *
 from models.base_model import BaseModel
 from models.base_model import BaseModel
+from models.user import User
 from datetime import datetime
 import os
 
