@@ -3,10 +3,12 @@
     Serializes instance to json and deserializes to instances
 """
 import json
+from json.decoder import JSONDecodeError
+from models.base_model import BaseModel
 import os
 
 
-class FileStorage():
+class FileStorage:
     __file_path: str = "file.json"
     __objects: dict = {}
 
@@ -42,5 +44,5 @@ class FileStorage():
                 key:
                     eval(obj["__class__"])(**obj)
                     for key, obj in deserialized.items()}
-        except (FileNotFoundError):
+        except (FileNotFoundError, JSONDecodeError):
             pass
