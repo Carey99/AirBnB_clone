@@ -4,13 +4,21 @@
 """
 import json
 from json.decoder import JSONDecodeError
+from models.engine.error import *
 from models.base_model import BaseModel
+from models.base_model import BaseModel
+from datetime import datetime
 import os
 
 
 class FileStorage:
     __file_path: str = "file.json"
     __objects: dict = {}
+    models = (
+        "BaseModel",
+        "User", "City", "State", "Place",
+        "Amenity", "Review"
+    )
 
     def __init__(self):
         """constructor"""
