@@ -1,7 +1,9 @@
 #!/usr/bin/python3
-"""Cmd interpreter"""
-import cmd
+"""
+Entry point of the project
+"""
 import sys
+import cmd
 
 
 class Myconsole(cmd.Cmd):
