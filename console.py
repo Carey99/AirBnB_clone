@@ -2,7 +2,7 @@
 """
 Entry point of the project
 """
-from cmd import Cmd
+import cmd
 from models import storage
 from models.engine.error import *
 import shlex
