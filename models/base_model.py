@@ -7,11 +7,26 @@ from datetime import datetime
 
 class BaseModel:
     """Defines all common attribute for other classes"""
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Public instance attributes"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = self.created_at
+        if kwargs:
+            class_name = kwargs.pop('__class__', None)
+            for key, value in kwargs.items():
+                if key == 'created_at' or key == 'updated_at':
+                    datetime_format = '%Y-%m-%dT%H:%M:%S.%f'
+                    datetime_value = datetime.strptime(value, datetime_format)
+                    setattr(self, key, datetime_value)
+                else:
+                    setattr(self, key, value)
+            if class_name:
+                if isinstance(class_name, str):
+                    setattr(self, '__class__', globals()[class_name])
+                else:
+                    setattr(self, '__class__', class_name)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
 
     def update(self, **kwargs):
         """Assign datetime when instance is created and will be updated"""
