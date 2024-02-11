@@ -46,3 +46,59 @@ class FileStorage:
                     for key, obj in deserialized.items()}
         except (FileNotFoundError, JSONDecodeError):
             pass
+
+    def find_by_id(self, model, obj_id):
+        """Find and return an element of model by its id"""
+        f = FileStorage
+        if model not in f.models:
+            raise ModelNotFoundError(model)
+
+        key = model + "." + obj_id
+        if key not in f.__objects:
+            raise InstanceNotFoundError(obj_id, model)
+
+        return f.__objects[key]
+
+    def delete_by_id(self, model, obj_id):
+        """Find and return an element of model by its id"""
+        f = FileStorage
+        if model not in f.models:
+            raise ModelNotFoundError(model)
+
+        key = model + "." + obj_id
+        if key not in f.__objects:
+            raise InstanceNotFoundError(obj_id, model)
+
+        del f.__objects[key]
+        self.save()
+
+    def find_all(self, model=""):
+        """Find all instances or instances of model"""
+        if model and model not in FileStorage.models:
+            raise ModelNotFoundError(model)
+        results = []
+        for key, val in FileStorage.__objects.items():
+            if key.startswith(model):
+                results.append(str(val))
+        return results
+
+    def update_one(self, model, iid, field, value):
+        """Updates an instance"""
+        f = FileStorage
+        if model not in f.models:
+            raise ModelNotFoundError(model)
+
+        key = model + "." + iid
+        if key not in f.__objects:
+            raise InstanceNotFoundError(iid, model)
+        if field in ("id", "updated_at", "created_at"):
+            return
+        inst = f.__objects[key]
+        try:
+            vtype = type(inst.__dict__[field])
+            inst.__dict__[field] = vtype(value)
+        except KeyError:
+            inst.__dict__[field] = value
+        finally:
+            inst.updated_at = datetime.utcnow()
+            self.save()
